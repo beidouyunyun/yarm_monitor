@@ -45,7 +45,7 @@
 
 # 四. Just for test
 ## 1. start yarn command
-`../python /home/gaojr/yarn-monitor/YarnMonitor.py`
+`../python /home/transmonitor/yarn-monitor/YarnMonitor.py`
 
 ## 2. Application_Master API
 ```
