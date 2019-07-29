@@ -60,4 +60,27 @@ curl --compressed -H "Accept: application/json" -X GET "http://***:8088/proxy/ap
 
 curl --compressed -H "Accept: application/json" -X GET "http://***:8088/proxy/application_1548125170651_0090/api/v1/applications"
 ```
-
+# 五. ERROR
+`其中，在ApplicationMaster中查询Job的返回数据无法转json的异常时，需修改yarn-api-client中修改对应API返回数据,可参考：`
+```
+if 'ws/v1/mapreduce/info' in path:
+            if response.status == OK:
+                html_content = response.read()
+                element_html = etree.HTML(html_content)
+                tr_list = element_html.xpath('//tbody/tr')
+                content_list = []
+                for tr in tr_list:
+                    item = {}
+                    item['id'] = tr.xpath('./td[1]/text()')[0].replace('\n', '').strip()
+                    item['duration'] = tr.xpath('./td[4]/text()')[0]
+                    # 打印每条信息
+                    # logging.info(item)
+                    content_list.append(item)
+                    # print content_list
+                    return content_list
+                response.close()
+                return self.response_class(content_list)
+            else:
+                msg = 'Response finished with status: %s' % response.status
+                raise APIError(msg)
+```
